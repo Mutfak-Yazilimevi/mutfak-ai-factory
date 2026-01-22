@@ -64,7 +64,118 @@ Mutfak AI Factory'nin ne olmadığını anlamak, sistemin gerçek değerini kavr
 
 ---
 
-## Sistem Mimarisi
+## Sistem Mimarisi ve Klasör Yapısı
+
+Mutfak AI Factory, belirli bir klasör yapısı ve organizasyon modeli üzerine kurulmuştur. Bu yapı, sistemin temel felsefesini yansıtır.
+
+### Mutfak AI Factory Klasör Yapısı
+
+```
+mutfak-ai-factory/
+├── ai/
+│   ├── agents/          # Agent davranış tanımları (Roller - Beyinler)
+│   ├── protocols/       # Sistem protokolleri
+│   └── project.scope.md # Proje anayasası
+├── docs/                # Niyet katmanı (vision, features, vb.)
+├── guides/              # Kullanıcı rehberleri ve dokümantasyon
+│   ├── QUICK_START.md
+│   ├── AGENT_PROMPTS.md
+│   ├── BEST_PRACTICES.md
+│   ├── TROUBLESHOOTING.md
+│   ├── BUG_FIX.md
+│   ├── FEATURE_REQUEST.md
+│   ├── CUSTOM_AGENTS.md
+│   └── SPRINT_STATUS.md
+├── runs/
+│   ├── features/        # Feature yönetimi (proje-specific)
+│   │   ├── requests/    # Yeni feature request'leri
+│   │   ├── backlog.md   # Feature backlog
+│   │   └── feature-template.md
+│   └── <SPRINT_ID>/     # Sprint execution klasörleri
+└── README.md
+```
+
+**Önemli Not:** Tüm kaynak kodlar **root dizindeki `/src/` klasörüne** yazılır (mutfak-ai-factory/src değil):
+- **Backend:** `src/api/{Project_Name}.{Stack_Name}/` (örn: `src/api/BankApp.Domain/`)
+- **Frontend:** `src/web/...` (örn: `src/web/components/`)
+- **React Native:** `src/mobile/...` (iOS ve Android desteği)
+  - Cross-platform: `src/mobile/screens/`, `src/mobile/components/`, vb.
+  - iOS-specific: `src/mobile/ios/`
+  - Android-specific: `src/mobile/android/`
+
+### `/ai/agents/` — Roller (Beyinler)
+
+Her dosya bir **rol tanımıdır**. Agent'lar kod yazmazlar, **nasıl düşüneceklerini tarif ederler**. Her agent dosyası:
+- Agent'ın rolünü tanımlar
+- Hangi dosyaları okuması gerektiğini belirtir
+- Hangi çıktıları üretmesi gerektiğini tanımlar
+- Nasıl karar vereceğini açıklar
+- Hangi kurallara uyması gerektiğini belirtir
+
+**Özel Agent:**
+- **Orchestrator Agent**: Tüm agent'ları koordine eder, task'ları otomatik atar, sprint execution'ı yönetir (otonom çalışma için)
+
+### `/ai/protocols/` — Sistem Protokolleri
+
+Sistem, farklı protokollerle yönetilir:
+- `sprint_flow.md`: Sprint akış sırası
+- `task_format.md`: Task dosya formatı
+- `dependency_rules.md`: Dependency yönetimi kuralları
+- `git_integration.md`: Git entegrasyonu kuralları
+- `error_recovery.md`: Hata kurtarma protokolleri
+- `execution_log.md`: Agent execution log protokolü
+- `sprint_initialization.md`: Sprint klasörü oluşturma
+- `multi_sprint_support.md`: Multi-sprint yönetimi protokolü
+- `hybrid_error_handling.md`: Hybrid hata yönetimi protokolü
+- `dashboard.md`: Dashboard format ve güncelleme protokolü
+- `vertical_agent_structure_proposal.md`: Vertical Agent Structure detayları
+- `backward_compatibility.md`: Backward compatibility kuralları
+- `feature_management.md`: Feature yönetimi protokolü
+- `new_project_initialization.md`: Yeni proje başlatma protokolü
+
+### `/docs/` — Niyet & Gerçeklik Katmanı
+
+Bu klasör, **insanın kafasındaki fikri, AI'nin okuyabileceği hale getirmek** için kullanılır. Product Agent tarafından oluşturulur/güncellenir:
+
+- `vision.md` → Ürün fikri, neden var?
+- `features.md` → Özellik spesifikasyonları
+- `user_flows.md` → Kullanıcı akışları
+- `assumptions.md` → Proje varsayımları
+- `constraints.md` → İşsel/hukuki sınırlar
+
+**Not:** Root dizindeki `/docs/` klasörü (Architecture.md, Database.md, vb.) de Product Agent tarafından okunur ve **önceliklidir**.
+
+### `/guides/` — Kullanıcı Rehberleri
+
+Sistem kullanımı için rehberler ve dokümantasyon:
+- `QUICK_START.md` → Hızlı başlangıç rehberi
+- `AGENT_PROMPTS.md` → Hazır agent prompt'ları
+- `BEST_PRACTICES.md` → İyi pratikler ve öneriler
+- `TROUBLESHOOTING.md` → Sorun giderme rehberi
+- `BUG_FIX.md` → Bug fix süreci rehberi
+- `FEATURE_REQUEST.md` → Feature request rehberi
+- `CUSTOM_AGENTS.md` → Custom agent kullanım rehberi
+- `SPRINT_STATUS.md` → Sprint durumu kontrol template'i
+
+### `/runs/features/` — Feature Yönetimi
+
+**Proje-Specific Feature Yönetimi:**
+- `requests/` → Yeni feature request'leri (proje-specific)
+- `backlog.md` → Feature backlog listesi (proje-specific)
+- `feature-template.md` → Feature request template (proje-specific)
+
+**Sistem Template Dosyaları:**
+- `ai/features/feature-template.md` → Feature request template (sistem)
+- `ai/features/backlog-template.md` → Feature backlog template (sistem)
+- `ai/features/README.md` → Feature management rehberi (sistem)
+
+### Scripts
+
+Sistem, yardımcı script'ler içerir:
+- `scripts/validate_sprint.sh` / `validate_sprint.ps1` → Sprint validation script
+- `scripts/sprint_status.sh` / `sprint_status.ps1` → Sprint status dashboard
+
+---
 
 ### 1. Dosya Tabanlı İletişim: Sistemin Temel Felsefesi
 
@@ -183,7 +294,19 @@ runs/
 
 ### 4. Task Yönetimi
 
-Her task, ayrı bir markdown dosyasıdır:
+Her task, ayrı bir markdown dosyasıdır: `/runs/<SPRINT_ID>/tasks/<ROLE>/task-001.md`
+
+**Task Dosya Formatı:**
+- `TASK_ID`: Task'ın benzersiz kimliği
+- `ROLE`: Hangi agent'ın çalışacağı (teknoloji-spesifik veya custom)
+- `STATUS`: Task durumu (TODO, IN_PROGRESS, DONE, BLOCKED)
+- `DEPENDENCIES`: Hangi task'lar DONE olmalı
+- `DESCRIPTION`: Task açıklaması
+- `ACCEPTANCE_CRITERIA`: Task'ın kabul kriterleri
+- `OUTPUT`: Üretilecek dosyalar veya yetenekler
+- `COMPLETION`: Developer agent tarafından eklenir (task DONE olduğunda)
+
+Örnek task dosyası:
 
 ```markdown
 TASK_ID: DOTNET_CORE-001
@@ -198,7 +321,12 @@ DESCRIPTION:
 Create User domain entity with email and password fields using C# .NET Core.
 
 OUTPUT:
-- src/api/MyProject.Domain/Entities/User.cs
+- src/api/BankApp.Domain/Entities/User.cs
+
+**Önemli:** Tüm kaynak kodlar **root dizindeki `/src/` klasörüne** yazılır:
+- Backend: `src/api/{Project_Name}.{Stack_Name}/`
+- Frontend: `src/web/...`
+- React Native: `src/mobile/...` (cross-platform, iOS-specific, Android-specific)
 
 ACCEPTANCE_CRITERIA:
 - User entity has Email property
@@ -270,7 +398,9 @@ BACKEND-002: Create User Repository (DEPENDENCIES: BACKEND-001)
 ### Senaryo 1: Yeni Bir Sprint Başlatma
 
 #### Adım 1: Dokümanları Hazırlama
-Müşteri (siz), proje dokümanlarınızı root `/docs/` klasörüne koyarsınız:
+Müşteri (siz), proje dokümanlarınızı **root `/docs/` klasörüne** koyarsınız:
+
+**Root `/docs/` klasörüne ekleyebileceğiniz dosyalar:**
 
 **ÖNEMLİ:** Dosya isimleri tamamen serbesttir. İstediğiniz isimde istediğiniz kadar dosya ekleyebilirsiniz.
 
@@ -281,6 +411,27 @@ Müşteri (siz), proje dokümanlarınızı root `/docs/` klasörüne koyarsını
 - `Requirements.md`, `Specs.md`, `BusinessRules.md`, vb.
 
 **Sistem otomatik olarak:** Root `/docs/` klasöründeki TÜM `.md` dosyalarını okur ve analiz eder. Belirli bir dosya ismi beklemez.
+
+**Önemli Not:** İki farklı `/docs/` klasörü vardır:
+- **Root `/docs/`**: Müşteri dokümanları (Architecture.md, Database.md, vb.) - **ÖNCELİKLİ**
+- **`mutfak-ai-factory/docs/`**: Sistem dokümanları (vision.md, features.md, vb.) - Product Agent tarafından oluşturulur
+
+**Product Agent'ın Öncelik Sırası:**
+1. Root `/docs/` klasöründeki dosyalar (müşteri dokümanları) - **ÖNCELİKLİ**
+2. `mutfak-ai-factory/docs/` klasöründeki dosyalar (sistem dokümanları)
+
+#### Adım 1.1: Yeni Projeye Başlarken (Opsiyonel - Temizlik)
+
+**ÖNEMLİ:** Eğer yeni bir projeye başlıyorsanız, önce eski proje verilerini temizlemeniz gerekir.
+
+**Temizlik Rehberi:**
+1. `src/` klasörünü temizle (eski kodları sil veya yedekle)
+2. Root `/docs/` klasöründeki eski dokümanları yeni proje dokümanlarıyla değiştir
+3. `mutfak-ai-factory/runs/` klasöründeki eski sprint klasörlerini arşivle veya sil
+4. `mutfak-ai-factory/ai/project.scope.md` dosyasını yeni proje için güncelle (veya Product Agent'a bırak)
+
+**Detaylı Temizlik Rehberi:**
+- `mutfak-ai-factory/ai/protocols/new_project_initialization.md` dosyasına bakın
 
 #### Adım 2: Product Agent'ı Çalıştırma
 Product Agent:
@@ -414,13 +565,16 @@ Orchestrator Agent:
    - Paralel çalışmayı yönetir (farklı ROLE'ler aynı anda çalışabilir)
    - Dependency engine'i sürekli izler ve yönetir
    - Code review'ları takip eder
+   - **SPRINT_PLAN.md Updates:** Marks sprint STATUS as IN_PROGRESS when execution starts
 3. **Quality Mode**: QA Agent'ı çalıştırır ve sonuçları değerlendirir
 4. **Documentation Mode**: Docs Agent'ı çalıştırır
+   - **SPRINT_PLAN.md Updates:** Marks sprint STATUS as COMPLETE, updates CURRENT_SPRINT if FULL_PROJECT mode
 5. **Sürekli İzleme**:
    - Dashboard'u gerçek zamanlı günceller (`dashboard.md`)
    - Execution log'larını takip eder
    - Hataları tespit eder ve yönetir (otomatik retry veya manuel müdahale)
    - Sprint completion criteria'larını kontrol eder
+   - **SPRINT_PLAN.md tracking:** Tracks sprint lifecycle (PLANNED → IN_PROGRESS → COMPLETE)
 
 ---
 
@@ -593,7 +747,15 @@ Open source bir projeye katkıda bulunurken:
 
 ## Teknik Detaylar
 
-### Agent Tanımları
+### Agent Tanımları: Roller (Beyinler)
+
+**Kritik Anlayış:** Agent'lar kod yazmazlar, **nasıl düşüneceklerini tarif ederler**. Her agent dosyası bir rol tanımıdır.
+
+**Agent Dosyalarının Rolü:**
+- `/ai/agents/` klasöründeki her dosya bir rol tanımıdır
+- Agent'lar bu tanımlara göre çalışır ve kod üretir
+- Agent tanımları, agent'ın nasıl düşüneceğini, hangi dosyaları okuyacağını, hangi çıktıları üreteceğini tanımlar
+- Agent'lar bu tanımlara göre task'ları execute eder ve kod yazar
 
 Her agent, bir markdown dosyası olarak tanımlanır. Örnek bir agent tanımı:
 
@@ -622,24 +784,57 @@ You are the .NET Core Developer of this AI-driven software team.
 - `angular-developer.md` → Angular geliştirme
 - `react-developer.md` → React geliştirme
 
-### Protokoller
+### Protokoller: Sistem Yönetim Kuralları
 
-Sistem, farklı protokollerle yönetilir:
-- `sprint_flow.md`: Sprint akış sırası
+Sistem, `/ai/protocols/` klasöründeki protokollerle yönetilir. Her protokol, sistemin belirli bir yönünü tanımlar:
+
+**Temel Protokoller:**
+- `sprint_flow.md`: Sprint akış sırası (mandatory order)
 - `task_format.md`: Task dosya formatı
 - `dependency_rules.md`: Dependency yönetimi kuralları
+- `execution_log.md`: Agent execution log protokolü
+- `sprint_initialization.md`: Sprint klasörü oluşturma
+- `new_project_initialization.md`: Yeni proje başlatma protokolü
+
+**Git ve Entegrasyon:**
 - `git_integration.md`: Git entegrasyonu kuralları
+
+**Hata Yönetimi:**
 - `error_recovery.md`: Hata kurtarma protokolleri
+- `hybrid_error_handling.md`: Hybrid hata yönetimi protokolü
+
+**Yapı ve Uyumluluk:**
 - `vertical_agent_structure_proposal.md`: Vertical Agent Structure detayları
 - `backward_compatibility.md`: Backward compatibility kuralları (eski format desteği)
 
-### Project Scope
+**Yönetim:**
+- `feature_management.md`: Feature yönetimi protokolü
+- `multi_sprint_support.md`: Multi-sprint yönetimi protokolü
+- `dashboard.md`: Dashboard format ve güncelleme protokolü
 
-`project.scope.md` dosyası, projenin anayasasıdır:
+### Sprint Yönetimi
+
+- **Otomatik Oluşturma**: Sprint'ler Product Agent tarafından otomatik oluşturulur
+- **SPRINT_ID Formatı**: `project.scope.md`'de tanımlı (SEQUENTIAL veya PROJECT_PREFIXED)
+- **Sprint Dosyası**: Her sprint için `/runs/<SPRINT_ID>/sprint.md` dosyası Product Agent tarafından oluşturulur (root `/docs/` klasöründen bilgileri çıkararak)
+- **Otomatik Klasör Yapısı**: Sprint klasörü ve alt klasörler otomatik oluşturulur
+- **Manuel SPRINT_ID Gerekmez**: Sprint klasörü Product Agent tarafından otomatik oluşturulur, SPRINT_ID belirtmeye gerek yoktur
+
+### Sprint Yönetimi
+
+- **Otomatik Oluşturma**: Sprint'ler Product Agent tarafından otomatik oluşturulur
+- **SPRINT_ID Formatı**: `project.scope.md`'de tanımlı (SEQUENTIAL veya PROJECT_PREFIXED)
+- **Sprint Dosyası**: Her sprint için `/runs/<SPRINT_ID>/sprint.md` dosyası Product Agent tarafından oluşturulur (root `/docs/` klasöründen bilgileri çıkararak)
+- **Otomatik Klasör Yapısı**: Sprint klasörü ve alt klasörler otomatik oluşturulur
+- **Manuel SPRINT_ID Gerekmez**: Sprint klasörü Product Agent tarafından otomatik oluşturulur, SPRINT_ID belirtmeye gerek yoktur
+
+### Project Scope: Projenin Anayasası
+
+`project.scope.md` dosyası, projenin anayasasıdır. Bu dosya:
 
 ```yaml
 PROJECT:
-  NAME: MyProject
+  NAME: BankApp
 
 STACK:
   API: ACTIVE
@@ -670,7 +865,7 @@ RULES:
 
 ## Gerçek Dünya Örneği: Basit Bankacılık Uygulaması
 
-Basit Bankacılık Uygulaması (MyProject), Mutfak AI Factory kullanılarak geliştirilen bir dijital bankacılık platformudur. Proje:
+Basit Bankacılık Uygulaması (BankApp), Mutfak AI Factory kullanılarak geliştirilen bir dijital bankacılık platformudur. Proje:
 
 - **Backend**: Java Spring Boot (JAVA_DEVELOPER agent), Clean Architecture
 - **Frontend**: React (REACT_DEVELOPER agent) - Web Dashboard
@@ -722,11 +917,41 @@ Mutfak AI Factory'nin gelecekteki versiyonları:
 
 ## Kaynaklar ve Dokümantasyon
 
-- **GitHub Repository**: [Proje linki]
-- **Quick Start Guide**: `mutfak-ai-factory/guides/QUICK_START.md`
-- **Best Practices**: `mutfak-ai-factory/guides/BEST_PRACTICES.md`
-- **Agent Prompts**: `mutfak-ai-factory/guides/AGENT_PROMPTS.md`
-- **Troubleshooting**: `mutfak-ai-factory/guides/TROUBLESHOOTING.md`
+### Temel Dokümantasyon
+- **Quick Start Guide**: `mutfak-ai-factory/guides/QUICK_START.md` → 5 dakikada başlangıç rehberi
+- **Agent Prompts**: `mutfak-ai-factory/guides/AGENT_PROMPTS.md` → Hazır agent prompt'ları
+- **Best Practices**: `mutfak-ai-factory/guides/BEST_PRACTICES.md` → İyi pratikler ve öneriler
+- **Troubleshooting**: `mutfak-ai-factory/guides/TROUBLESHOOTING.md` → Sorun giderme rehberi
+- **Bug Fix**: `mutfak-ai-factory/guides/BUG_FIX.md` → Bug fix süreci rehberi
+- **Feature Request**: `mutfak-ai-factory/guides/FEATURE_REQUEST.md` → Feature request rehberi
+- **Custom Agents**: `mutfak-ai-factory/guides/CUSTOM_AGENTS.md` → Custom agent kullanım rehberi
+- **Sprint Status**: `mutfak-ai-factory/guides/SPRINT_STATUS.md` → Sprint durumu kontrol template'i
+
+### Sistem Dokümantasyonu
+- **Agent Tanımları**: `mutfak-ai-factory/ai/agents/` → Her agent'ın detaylı davranış kuralları
+- **Protokoller**: `mutfak-ai-factory/ai/protocols/` → Sistem protokolleri
+- **Feature Management**: `mutfak-ai-factory/ai/protocols/feature_management.md` → Feature yönetimi protokolü
+- **Sprint Start**: `mutfak-ai-factory/ai/START_SPRINT.md` → Detaylı sprint başlatma akışı
+- **Sprint Yapısı**: `mutfak-ai-factory/runs/README.md` → Sprint yapısı örneği
+
+### Yardımcı Dosyalar
+- **Sprint Initialization**: `mutfak-ai-factory/ai/protocols/sprint_initialization.md` → Sprint klasörü oluşturma
+- **Task Format**: `mutfak-ai-factory/ai/protocols/task_format.md` → Task dosya formatı
+- **Execution Log**: `mutfak-ai-factory/ai/protocols/execution_log.md` → Agent execution log protokolü
+- **Error Recovery**: `mutfak-ai-factory/ai/protocols/error_recovery.md` → Detaylı hata kurtarma protokolleri
+- **Multi-Sprint Support**: `mutfak-ai-factory/ai/protocols/multi_sprint_support.md` → Multi-sprint yönetimi protokolü
+- **Git Integration**: `mutfak-ai-factory/ai/protocols/git_integration.md` → Git entegrasyonu protokolü
+- **Hybrid Error Handling**: `mutfak-ai-factory/ai/protocols/hybrid_error_handling.md` → Hybrid hata yönetimi protokolü
+- **Dashboard**: `mutfak-ai-factory/ai/protocols/dashboard.md` → Dashboard format ve güncelleme protokolü
+- **New Project Initialization**: `mutfak-ai-factory/ai/protocols/new_project_initialization.md` → Yeni proje başlatma protokolü
+- **Feature Templates**: `mutfak-ai-factory/ai/features/README.md` → Feature yönetimi rehberi (template dosyalar)
+
+### Scripts
+- **Sprint Validation**: `mutfak-ai-factory/scripts/validate_sprint.sh` / `validate_sprint.ps1` → Sprint validation script
+- **Sprint Status**: `mutfak-ai-factory/scripts/sprint_status.sh` / `sprint_status.ps1` → Sprint status dashboard
+
+### GitHub Repository
+- **Proje Linki**: [GitHub Repository linki buraya eklenecek]
 
 ---
 
@@ -769,7 +994,22 @@ Mutfak AI Factory'nin gelecekteki versiyonları:
 **C:** `runs/features/requests/feature-<NUMBER>.md` dosyası oluşturulur ve Product Agent'a bildirilir. Product Agent, feature'ı review eder, priority belirler ve backlog'a ekler veya mevcut sprint'e ekler.
 
 ### S: Root `/docs/` ve `mutfak-ai-factory/docs/` arasındaki fark nedir?
-**C:** Root `/docs/` klasörü müşteri dokümanlarını içerir (Architecture.md, Database.md, vb.) ve **önceliklidir**. `mutfak-ai-factory/docs/` klasörü sistem dokümanlarını içerir (vision.md, features.md, vb.) ve Product Agent tarafından oluşturulur/güncellenir.
+**C:** Root `/docs/` klasörü müşteri dokümanlarını içerir (Architecture.md, Database.md, vb.) ve **önceliklidir**. `mutfak-ai-factory/docs/` klasörü sistem dokümanlarını içerir (vision.md, features.md, user_flows.md, assumptions.md, constraints.md) ve Product Agent tarafından oluşturulur/güncellenir.
+
+### S: Kodlar nereye yazılıyor?
+**C:** Tüm kaynak kodlar **root dizindeki `/src/` klasörüne** yazılır (mutfak-ai-factory/src değil). Backend: `src/api/{Project_Name}.{Stack_Name}/`, Frontend: `src/web/...`, React Native: `src/mobile/...`
+
+### S: Agent'lar kod yazıyor mu?
+**C:** Evet, agent'lar (Backend, Frontend, vb.) gerçekten kod yazıyor. Ancak agent tanımları (`/ai/agents/` klasöründeki dosyalar) kod yazmaz, agent'ların nasıl düşüneceğini tarif eder. Agent'lar bu tanımlara göre çalışır ve kod üretir.
+
+### S: Yeni projeye nasıl başlanır?
+**C:** Önce eski proje verilerini temizleyin (`src/`, root `/docs/`, `runs/` klasörleri). Sonra root `/docs/` klasörüne yeni proje dokümanlarını ekleyin ve Product Agent'ı çalıştırın. Detaylı rehber: `mutfak-ai-factory/ai/protocols/new_project_initialization.md`
+
+### S: Feature request template'leri nerede?
+**C:** İki tür template vardır: (1) Proje-specific: `runs/features/feature-template.md`, (2) Sistem template: `mutfak-ai-factory/ai/features/feature-template.md`. Sistem template'leri tüm projeler için kullanılabilir.
+
+### S: Sprint ID nasıl belirlenir?
+**C:** Product Agent, `project.scope.md` dosyasından SPRINT_ID formatını okur (SEQUENTIAL veya PROJECT_PREFIXED) ve mevcut sprint klasörlerini kontrol ederek yeni SPRINT_ID oluşturur. Manuel belirtmeye gerek yoktur.
 
 ---
 
@@ -777,4 +1017,4 @@ Mutfak AI Factory'nin gelecekteki versiyonları:
 
 ---
 
-*Bu makale, Mutfak AI Factory v1.0 baz alınarak yazılmıştır. Sistem sürekli geliştirilmektedir ve yeni özellikler eklenmektedir.*
+*Bu makale, Mutfak AI Factory v0.1 baz alınarak yazılmıştır. Sistem sürekli geliştirilmektedir ve yeni özellikler eklenmektedir.*
