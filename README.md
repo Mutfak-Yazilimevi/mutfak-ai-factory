@@ -104,10 +104,10 @@ Sistem, **Vertical Agent Structure** kullanarak teknoloji-spesifik agent'ları d
 Sistem, farklı rollerdeki AI agent'ları içerir:
 
 #### Planning Agents (Planlama Aşaması)
-- **Product Agent**: Sprint başlatma, ürün gereksinimlerini belirleme
-- **Architect Agent**: Teknik mimari kararları alma
-- **Planner Agent**: Atomik task'ları oluşturma
-- **Lead Dev Agent**: Plan review, dependency yönetimi
+- **[Product Agent](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/agents/product.md)**: Sprint başlatma, ürün gereksinimlerini belirleme
+- **[Architect Agent](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/agents/architect.md)**: Teknik mimari kararları alma
+- **[Planner Agent](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/agents/planner.md)**: Atomik task'ları oluşturma
+- **[Lead Dev Agent](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/agents/lead-dev.md)**: Plan review, dependency yönetimi
 
 #### Production Agents (Geliştirme Aşaması)
 - **Technology-Specific Backend Agents**: 
@@ -137,11 +137,11 @@ Sistem, farklı rollerdeki AI agent'ları içerir:
 - **Custom Agents**: Proje gereksinimlerine göre özel domain agent'ları (IoT, Blockchain, Game Dev, vb.)
 
 #### Quality & Documentation Agents
-- **QA Agent**: Acceptance criteria doğrulama
-- **Docs Agent**: Dokümantasyon oluşturma
+- **[QA Agent](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/agents/qa.md)**: Acceptance criteria doğrulama
+- **[Docs Agent](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/agents/docs.md)**: Dokümantasyon oluşturma
 
 #### Orchestration Agent
-- **Orchestrator Agent**: Tüm agent'ları koordine eden merkezi yönetici
+- **[Orchestrator Agent](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/agents/orchestrator.md)**: Tüm agent'ları koordine eden merkezi yönetici
 
 ### 3. Sprint Yapısı
 
@@ -399,9 +399,11 @@ Docs Agent:
 Orchestrator Agent, tüm bu süreci otomatik olarak yönetir:
 
 ```markdown
-Read mutfak-ai-factory/ai/agents/orchestrator.md and execute.
+Read ai-factory/ai/agents/orchestrator.md and execute.
 Start orchestration for a new sprint.
 ```
+
+**Not:** Tüm agent dosyalarına [ai-factory/ai/agents/](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/tree/main/ai-factory/ai/agents) klasöründen erişebilirsiniz.
 
 Orchestrator Agent:
 1. **Planning Mode Detection:**
@@ -451,7 +453,7 @@ Orchestrator Agent:
 - **Retry Mekanizmaları**: 
   - Geçici hatalar için otomatik retry
   - Kalıcı hatalar için BLOCKED işaretleme ve manuel müdahale
-- **Error Handling Protokolleri**: `error_recovery.md` protokolüne göre yönetilir
+- **Error Handling Protokolleri**: [error_recovery.md](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/protocols/error_recovery.md) protokolüne göre yönetilir
 
 ### 5. Git Entegrasyonu
 Sistem, opsiyonel olarak Git entegrasyonu sağlar (`GIT: STATUS: ACTIVE`):
@@ -545,7 +547,7 @@ Bir oyun geliştirme projesinde, Product Agent otomatik olarak Game Dev Agent'ı
 ✅ **Esneklik**: Herhangi bir domain için özel agent eklenebilir
 ✅ **Otomatik Tespit**: Product Agent, domain'leri otomatik olarak tespit eder
 ✅ **Standart Yapı**: Custom agent'lar, standart agent'lar gibi çalışır
-✅ **Template Desteği**: `custom-agent-template.md` ile kolayca yeni agent'lar oluşturulabilir
+✅ **Template Desteği**: [custom-agent-template.md](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/agents/custom-agent-template.md) ile kolayca yeni agent'lar oluşturulabilir
 
 ---
 
@@ -617,25 +619,40 @@ You are the .NET Core Developer of this AI-driven software team.
 ```
 
 **Not:** Vertical Structure sayesinde, her teknoloji için ayrı agent tanımları vardır. Örneğin:
-- `dotnet-core-developer.md` → .NET Core geliştirme
-- `java-developer.md` → Java geliştirme
-- `angular-developer.md` → Angular geliştirme
-- `react-developer.md` → React geliştirme
+- [.NET Core Developer](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/agents/dotnet-core-developer.md) → .NET Core geliştirme
+- [Java Developer](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/agents/java-developer.md) → Java geliştirme (not: java-developer.md henüz yok, backend.md kullanılabilir)
+- [Angular Developer](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/agents/angular-developer.md) → Angular geliştirme
+- [React Developer](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/agents/react-developer.md) → React geliştirme (not: react-developer.md henüz yok, frontend.md kullanılabilir)
+- [Product Agent](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/agents/product.md) → Sprint başlatma ve ürün gereksinimleri
+- [Architect Agent](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/agents/architect.md) → Teknik mimari kararları
+- [Planner Agent](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/agents/planner.md) → Atomik task'ları oluşturma
+- [Orchestrator Agent](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/agents/orchestrator.md) → Tüm agent'ları koordine eden merkezi yönetici
+- [Lead Dev Agent](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/agents/lead-dev.md) → Plan review ve dependency yönetimi
+- [QA Agent](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/agents/qa.md) → Acceptance criteria doğrulama
+- [Docs Agent](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/agents/docs.md) → Dokümantasyon oluşturma
+- [Custom Agent Template](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/agents/custom-agent-template.md) → Özel agent'lar için şablon
 
 ### Protokoller
 
 Sistem, farklı protokollerle yönetilir:
-- `sprint_flow.md`: Sprint akış sırası
-- `task_format.md`: Task dosya formatı
-- `dependency_rules.md`: Dependency yönetimi kuralları
-- `git_integration.md`: Git entegrasyonu kuralları
-- `error_recovery.md`: Hata kurtarma protokolleri
-- `vertical_agent_structure_proposal.md`: Vertical Agent Structure detayları
-- `backward_compatibility.md`: Backward compatibility kuralları (eski format desteği)
+- [Sprint Flow](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/protocols/sprint_flow.md): Sprint akış sırası
+- [Task Format](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/protocols/task_format.md): Task dosya formatı
+- [Dependency Rules](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/protocols/dependency_rules.md): Dependency yönetimi kuralları
+- [Git Integration](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/protocols/git_integration.md): Git entegrasyonu kuralları
+- [Error Recovery](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/protocols/error_recovery.md): Hata kurtarma protokolleri
+- [Vertical Agent Structure](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/protocols/vertical_agent_structure_proposal.md): Vertical Agent Structure detayları
+- [Backward Compatibility](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/protocols/backward_compatibility.md): Backward compatibility kuralları (eski format desteği)
+- [Full Project Planning](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/protocols/full_project_planning.md): Tüm sprintlerin önceden planlanması
+- [Sprint Plan Template](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/protocols/sprint-plan-template.md): Sprint plan şablonu
+- [New Project Initialization](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/protocols/new_project_initialization.md): Yeni proje başlatma protokolü
+- [Feature Management](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/protocols/feature_management.md): Feature yönetimi protokolü
+- [Sprint Report](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/protocols/sprint_report.md): Sprint raporu formatı
+- [Dashboard Protocol](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/protocols/dashboard.md): Dashboard protokolü
+- [Task Generation](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/protocols/task_generation.md): Task oluşturma protokolü
 
 ### Project Scope
 
-`project.scope.md` dosyası, projenin anayasasıdır:
+[`project.scope.md`](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/project.scope.md) dosyası, projenin anayasasıdır:
 
 ```yaml
 PROJECT:
@@ -722,11 +739,19 @@ Mutfak AI Factory'nin gelecekteki versiyonları:
 
 ## Kaynaklar ve Dokümantasyon
 
-- **GitHub Repository**: [Proje linki]
+- **GitHub Repository**: [https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory)
+- **Project Scope**: [project.scope.md](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/project.scope.md)
+- **Start Sprint Guide**: [START_SPRINT.md](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/START_SPRINT.md)
 - **Quick Start Guide**: [QUICK_START.md](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/guides/QUICK_START.md)
 - **Best Practices**: [BEST_PRACTICES.md](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/guides/BEST_PRACTICES.md)
 - **Agent Prompts**: [AGENT_PROMPTS.md](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/guides/AGENT_PROMPTS.md)
 - **Troubleshooting**: [TROUBLESHOOTING.md](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/guides/TROUBLESHOOTING.md)
+- **Bug Fix Guide**: [BUG_FIX.md](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/guides/BUG_FIX.md)
+- **Feature Request Guide**: [FEATURE_REQUEST.md](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/guides/FEATURE_REQUEST.md)
+- **Custom Agents Guide**: [CUSTOM_AGENTS.md](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/guides/CUSTOM_AGENTS.md)
+- **Git Integration Guide**: [GIT_INTEGRATION.md](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/guides/GIT_INTEGRATION.md)
+- **Orchestrator Guide**: [ORCHESTRATOR.md](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/guides/ORCHESTRATOR.md)
+- **Sprint Status Template**: [SPRINT_STATUS.md](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/guides/SPRINT_STATUS.md)
 
 ---
 
@@ -766,7 +791,7 @@ Mutfak AI Factory'nin gelecekteki versiyonları:
 **C:** Sprint, şu kriterlerin **tümü** karşılandığında COMPLETE olur: (1) Tüm task'lar DONE, (2) QA STATUS: PASSED, (3) Tüm code review'lar APPROVED, (4) Dokümantasyon tamamlandı, (5) Lead Dev review tamamlandı.
 
 ### S: Feature request nasıl eklenir?
-**C:** `runs/features/requests/feature-<NUMBER>.md` dosyası oluşturulur ve Product Agent'a bildirilir. Product Agent, feature'ı review eder, priority belirler ve backlog'a ekler veya mevcut sprint'e ekler.
+**C:** `runs/features/requests/feature-<NUMBER>.md` dosyası oluşturulur ve Product Agent'a bildirilir. Product Agent, feature'ı review eder, priority belirler ve backlog'a ekler veya mevcut sprint'e ekler. Feature template için: [feature-template.md](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/ai/features/feature-template.md)
 
 ### S: Root `/docs/` ve `mutfak-ai-factory/docs/` arasındaki fark nedir?
 **C:** Root `/docs/` klasörü müşteri dokümanlarını içerir (Architecture.md, Database.md, vb.) ve **önceliklidir**. `mutfak-ai-factory/docs/` klasörü sistem dokümanlarını içerir (vision.md, features.md, vb.) ve Product Agent tarafından oluşturulur/güncellenir.
