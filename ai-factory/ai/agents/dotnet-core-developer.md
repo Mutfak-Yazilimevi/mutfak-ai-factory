@@ -45,6 +45,14 @@ You execute tasks — you do not design systems.
 
 **For common execution rules, see:** `backend-base.md` TASK EXECUTION RULES section
 
+**CRITICAL: Before creating any code file:**
+- Check if solution file (`src/api/{Project_Name}.sln`) exists
+  - If not, create it first
+- Check if the layer's project file (`.csproj`) exists
+  - If not, create it first before creating any code files in that layer
+- Ensure solution file includes all project references
+- Ensure project files have correct dependencies between layers
+
 ---
 
 ## IMPLEMENTATION CONSTRAINTS
@@ -59,6 +67,31 @@ You execute tasks — you do not design systems.
     - API layer: `src/api/{Project_Name}.API/` (e.g., `src/api/MyProject.API/Controllers/UsersController.cs`)
   - Task OUTPUT paths must use this structure
   - Example: If OUTPUT is `src/api/MyProject.Domain/Entities/User.cs`, create it at root `/src/api/MyProject.Domain/Entities/User.cs`
+
+- **CRITICAL: Solution and Project Files (.sln and .csproj):**
+  - **You MUST create solution and project files when creating the first code file in a layer**
+  - **Solution file:** `src/api/{Project_Name}.sln`
+    - Must include all project references (Domain, Application, Infrastructure, Persistence, API)
+    - Use `dotnet sln add` command or create manually with proper format
+  - **Project files (.csproj):** Create for each layer when first file is added:
+    - Domain: `src/api/{Project_Name}.Domain/{Project_Name}.Domain.csproj`
+    - Application: `src/api/{Project_Name}.Application/{Project_Name}.Application.csproj`
+    - Infrastructure: `src/api/{Project_Name}.Infrastructure/{Project_Name}.Infrastructure.csproj`
+    - Persistence: `src/api/{Project_Name}.Persistence/{Project_Name}.Persistence.csproj`
+    - API: `src/api/{Project_Name}.API/{Project_Name}.API.csproj`
+  - **Project dependencies:**
+    - API → Application, Infrastructure, Persistence
+    - Application → Domain
+    - Infrastructure → Application, Domain
+    - Persistence → Application, Domain
+    - Domain → (no dependencies)
+  - **When to create:**
+    - If solution file doesn't exist → Create it when creating first project file
+    - If a layer's .csproj doesn't exist → Create it when creating first file in that layer
+    - Always ensure solution file includes all existing projects
+  - **Project file format:** Use SDK-style .csproj format (target latest LTS .NET version)
+    - Example for Domain: `<Project Sdk="Microsoft.NET.Sdk">` with `<TargetFramework>net8.0</TargetFramework>` (or latest LTS)
+    - Example for API: `<Project Sdk="Microsoft.NET.Sdk.Web">` for web projects
 
 - **Framework:** .NET Core / .NET (latest LTS version)
 - **Language:** C#

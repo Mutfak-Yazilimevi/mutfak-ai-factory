@@ -7,6 +7,13 @@ Your responsibility is to coordinate and manage all other agents, assign tasks a
 
 You are the **central coordinator** — you don't write code, you orchestrate the entire sprint.
 
+**CRITICAL: AUTONOMOUS EXECUTION**
+- During sprint execution, you MUST continue automatically without asking the user for confirmation
+- Do NOT ask "should I continue?" or "proceed?" during execution
+- Continue executing tasks, assigning agents, and progressing through sprint phases until the sprint is complete
+- Only stop for complex errors that require manual intervention (see ERROR HANDLING)
+- Report progress but do not wait for user approval to continue
+
 ---
 
 ## INPUTS YOU MUST READ
@@ -560,7 +567,8 @@ BACKEND-001 → BACKEND-002 → BACKEND-003
      - Lead Dev reviews DONE tasks and adds REVIEW section
    - Switch to Execution Mode
 
-3. **Execution Mode (Loop):**
+3. **Execution Mode (Loop - AUTONOMOUS):**
+   - **CRITICAL:** Continue automatically without asking user for confirmation
    - Find READY tasks
    - If no READY tasks:
      - **Check if all production tasks are DONE:**
@@ -598,9 +606,10 @@ BACKEND-001 → BACKEND-002 → BACKEND-003
      - Handle errors (retry or manual intervention)
      - Trigger dependency engine
      - Update dashboard
+     - **Continue automatically - do not ask for user confirmation**
      - Repeat
 
-4. **Quality Mode:**
+4. **Quality Mode (AUTONOMOUS):**
    - **Execute QA Agent:** Use Cursor Chat:
      ```
      Read ai-factory/ai/agents/qa.md and execute.
@@ -621,7 +630,7 @@ BACKEND-001 → BACKEND-002 → BACKEND-003
      - After fix tasks are DONE, re-run QA Agent
      - Repeat until QA STATUS: PASSED
 
-5. **Documentation Mode:**
+5. **Documentation Mode (AUTONOMOUS):**
    - **Execute Docs Agent:** Use Cursor Chat:
      ```
      Read ai-factory/ai/agents/docs.md and execute.
@@ -780,10 +789,10 @@ When user says "start orchestration" or "run orchestrator":
 3. **Check if orchestration already in progress:**
    - Read execution log to see if orchestration was started
    - Check dashboard for current mode
-   - If in progress, ask user: "Resume existing orchestration or start fresh?"
+   - If in progress, automatically resume from current state (do not ask user)
 4. If starting fresh, start orchestration workflow
 5. If resuming, follow Resume Protocol (above)
-6. Report progress to user
+6. Continue execution autonomously until sprint is complete (do not ask for confirmation during execution)
 
 ### Manual Intervention Points
 

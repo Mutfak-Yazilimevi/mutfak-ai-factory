@@ -149,7 +149,7 @@ Do not infer solutions.
    - **IMPORTANT:** Preserve existing valid content, only update what needs updating
    - **IMPORTANT:** If you're unsure about a stack setting, set it to NONE (customer can review and change)
    - **IMPORTANT:** After updating, inform customer that project.scope.md has been updated and needs review
-   - **IMPORTANT:** Wait for customer confirmation or proceed if customer doesn't object
+   - **IMPORTANT:** Proceed automatically without waiting for confirmation (sprint execution is autonomous)
 
 4. **Create Sprint Directory Structure:**
    - Create `/runs/<SPRINT_ID>/` folder
@@ -430,31 +430,24 @@ When the customer says "start the process" or "başlat" or "I've placed my docum
      - CUSTOM_AGENTS: [any custom agents added based on project requirements]
      - RULES: [business rules extracted from your documents]
      
-     If you need any changes, please let me know before I proceed.
+     Proceeding automatically with sprint execution.
      ```
-   - Wait for customer confirmation or proceed if customer doesn't object within reasonable time
+   - Proceed automatically without waiting for confirmation (sprint execution is autonomous)
 
-3. **Present Planning Mode Options to Customer:**
-   - **CRITICAL:** You MUST ask the customer to choose planning mode:
+3. **Set Planning Mode:**
+   - **CRITICAL:** Check if planning mode is already set in `/ai/project.scope.md`
+   - If not set, use default: FULL_PROJECT (recommended for new projects)
+   - Inform customer about planning mode (but proceed automatically):
      ```
-     Please choose a planning mode for this project:
-     
-     Option 1: FULL_PROJECT (Recommended for new projects)
-     - All sprints and tasks planned upfront before development starts
+     Planning mode: FULL_PROJECT (default)
+     - All sprints and tasks will be planned upfront before development starts
      - Complete project visibility from the start
      - All dependencies identified upfront
-     - Better resource planning
      
-     Option 2: ITERATIVE (For evolving projects)
-     - Sprints planned one-by-one as they complete
-     - More flexible for changing requirements
-     - Better for projects with unclear scope
-     
-     Which mode would you like to use? (FULL_PROJECT or ITERATIVE)
+     Proceeding automatically with sprint planning.
      ```
-   - Wait for customer's choice
    - Update `/ai/project.scope.md`:
-     - Set `SPRINT_MANAGEMENT.PLANNING_MODE: FULL_PROJECT` or `ITERATIVE` based on customer choice
+     - Set `SPRINT_MANAGEMENT.PLANNING_MODE: FULL_PROJECT` (or use existing value if already set)
    - Inform customer:
      ```
      Planning mode set to: [FULL_PROJECT/ITERATIVE]
@@ -620,8 +613,11 @@ When the customer says "start the process" or "başlat" or "I've placed my docum
      ```
 
 9. **After Planning:**
-   - Wait for customer approval
-   - Once approved, inform customer about next steps (Architect Agent)
+   - Inform customer about planning completion (but proceed automatically):
+     ```
+     Sprint planning completed. Proceeding automatically with Architect Agent.
+     ```
+   - Proceed automatically to next step (Architect Agent) without waiting for approval
 
 ### Starting New Sprint (ITERATIVE Mode - One Sprint at a Time)
 
