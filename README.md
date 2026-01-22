@@ -723,7 +723,7 @@ Mutfak AI Factory'nin gelecekteki versiyonları:
 ## Kaynaklar ve Dokümantasyon
 
 - **GitHub Repository**: [Proje linki]
-- **Quick Start Guide**: `mutfak-ai-factory/guides/QUICK_START.md`
+- **Quick Start Guide**: `[mutfak-ai-factory/guides/QUICK_START.md](https://github.com/Mutfak-Yazilimevi/mutfak-ai-factory/blob/main/ai-factory/guides/QUICK_START.md)`
 - **Best Practices**: `mutfak-ai-factory/guides/BEST_PRACTICES.md`
 - **Agent Prompts**: `mutfak-ai-factory/guides/AGENT_PROMPTS.md`
 - **Troubleshooting**: `mutfak-ai-factory/guides/TROUBLESHOOTING.md`
